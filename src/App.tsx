@@ -1,13 +1,12 @@
 import React from 'react';
-import * as styles from  './App.module.less';
+import './App.module.less';
 
 function App() {
-  console.log(styles)
   return (
-    <div className={styles.App}>
+    <div className="App">
      
     </div>
-  )
+  );
 }
 
 export default App;
