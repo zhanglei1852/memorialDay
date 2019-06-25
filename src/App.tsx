@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.module.less';
+import styles from './App.module.less';
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles.App}>
      
     </div>
   );
