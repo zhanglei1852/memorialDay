@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import CountDown from './pages/countDown'
-import { BrowserRouter } from 'react-router-dom'
 import * as serviceWorker from './serviceWorker';
-import routeConfig from './route';
+import Router from './route';
 
-ReactDOM.render(<BrowserRouter > 
-  <CountDown></CountDown>
-</BrowserRouter>, document.getElementById('root'));
+ReactDOM.render(<Router/>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

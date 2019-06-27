@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './index.module.less';
 
-function CountDown() {
+function CountDown (): JSX.Element{
   return (
     <div className={styles.App}>
      {1}
