@@ -1,11 +1,15 @@
 import { BrowserRouter, Route } from 'react-router-dom'
 import * as React from 'react'
 import CountDown from '../pages/countDown'
-// export default class Router extends React.Component {
-//   constructor (props) {
-//     super(props)
-//   }
-//   render (){
+// interface RouterState {
+// }
+// interface RouterProps {
+// }
+// export default class Router extends React.Component<RouterProps, RouterState> {
+//   // constructor (props: RouterProps) {
+//   //   super(props)
+//   // }
+//   render (): JSX.Element{
 //     return (
 //       <BrowserRouter>
 //         <Route path="/" component={CountDown}></Route>
