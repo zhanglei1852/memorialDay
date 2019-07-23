@@ -1,11 +1,32 @@
-.App {
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  background: black;
-  color: #ffffff;
-  font-size: 76px;
-  line-height: 100vh;
+.first_step {
+  position: absolute;
+  top: 0; left:0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+}
+.first_step_bg {
+  position: absolute;
+  top: -25%; 
+  left: 50%;
+  width: 200%; 
+  height: 200%;
+  transform: rotate(0deg);
+  animation: first_step_bg 0.8s ease 2.9s forwards;
+  opacity: 0;
+  &::after {
+    content: ""; 
+    display: block;
+    width: 100%; 
+    height: 100%;
+    background-color: #43445B;
+    opacity: 0.4;
+  }
 }
 
 
+/*** animation ***/
+
+@keyframes first_step_bg {
+  from { transform: translateX(100px) rotate(20deg); opacity: 0; }
+  to   { transform: translateX(0px) rotate(20deg); opacity: 1; }
+}
