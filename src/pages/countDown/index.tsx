@@ -16,7 +16,8 @@ class CountDown extends React.Component<CountDownState> {
     const { count } = this.state
     return (
       <div className={styles.first_step}>
-        <div className={styles.first_step_bg}> </div>
+        <div className={styles.first_step_bg}/> 
+        <div className={styles.first_step_text_container}></div>
       </div>
     )
   }
