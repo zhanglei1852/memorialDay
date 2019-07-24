@@ -17,7 +17,16 @@ class CountDown extends React.Component<CountDownState> {
     return (
       <div className={styles.first_step}>
         <div className={styles.first_step_bg}/> 
-        <div className={styles.first_step_text_container}></div>
+        <div className={styles.first_step_text_container}>
+          <div className={styles.title_container}>
+            <div className={`${styles.line} ${styles.line_top}`}>
+              <div/>
+            </div>
+            <div className={`${styles.line} ${styles.line_bottom}`}>
+              <div/>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
