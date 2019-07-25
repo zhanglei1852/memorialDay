@@ -25,6 +25,18 @@ class CountDown extends React.Component<CountDownState> {
             <div className={`${styles.line} ${styles.line_bottom}`}>
               <div/>
             </div>
+            <div className={styles.m_text_c}>
+              <div className={styles.m_text}>
+                <span>结</span>
+                <span>婚</span>
+                <span>一</span>
+                <span>周</span>
+                <span>年</span>
+                <span>纪</span>
+                <span>念</span>
+                <span>日</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
