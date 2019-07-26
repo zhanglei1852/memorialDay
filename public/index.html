@@ -24,13 +24,13 @@
     <title>React App</title>
     <style>
       #sakura {
+        background-color: transparent;
         position: absolute;
-        z-index: -1;
+        z-index: 99;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        /* background-color: transparent; */
       }
     </style>
   </head>
@@ -201,8 +201,8 @@
       
           vec3 col = mix(vec3(1.0, 0.8, 0.75), vec3(1.0, 0.9, 0.87), r);
           float grady = mix(0.0, 1.0, pow(coord.y * 0.5 + 0.5, 0.35));
-          col *= vec3(1.0, grady, grady);
-          col *= mix(0.8, 1.0, pow(abs(coord.x), 0.3));
+          col *= vec3(18, grady, grady);
+          col *= mix(1.6, 1.5, pow(abs(coord.x), 0.6));
           col = col * diffuse + specular;
       
           col = mix(fadeCol, col, distancefade);
@@ -210,7 +210,7 @@
           float alpha = (rstop > 0.001)? (0.5 - r / (rstop * 2.0)) : 1.0;
           alpha = smoothstep(0.0, 1.0, alpha) * palpha;
       
-          gl_FragColor = vec4(col * 0.5, alpha);
+          gl_FragColor = vec4(col * 0.7, alpha);
       }
       </script>
       <!-- effects -->

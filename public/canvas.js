@@ -315,7 +315,7 @@ function createPointFlowers() {
     pointFlower.fader = Vector3.create(0.0, 10.0, 0.0);
     
     // paramerters: velocity[3], rotate[3]
-    pointFlower.numFlowers = 1600;
+    pointFlower.numFlowers = 100;
     pointFlower.particles = new Array(pointFlower.numFlowers);
     // vertex attributes {position[3], euler_xyz[3], size[1]}
     pointFlower.dataArray = new Float32Array(pointFlower.numFlowers * (3 + 3 + 2));
@@ -353,18 +353,18 @@ function initPointFlowers() {
         var tmpprtcl = pointFlower.particles[i];
         
         //velocity
-        tmpv3.x = symmetryrand() * 0.3 + 0.8;
+        tmpv3.x = symmetryrand() * 0.5 + 0.8;
         tmpv3.y = symmetryrand() * 0.2 - 1.0;
-        tmpv3.z = symmetryrand() * 0.3 + 0.5;
+        tmpv3.z = symmetryrand() * 0.4 + 0.9;
         Vector3.normalize(tmpv3);
         tmpv = 2.0 + Math.random() * 1.0;
         tmpprtcl.setVelocity(tmpv3.x * tmpv, tmpv3.y * tmpv, tmpv3.z * tmpv);
         
         //rotation
         tmpprtcl.setRotation(
-            symmetryrand() * PI2 * 0.5,
-            symmetryrand() * PI2 * 0.5,
-            symmetryrand() * PI2 * 0.5
+            symmetryrand() * PI2 * 0.3,
+            symmetryrand() * PI2 * 0.3,
+            symmetryrand() * PI2 * 0.3
         );
         
         //position
@@ -528,15 +528,14 @@ function createEffectProgram(vtxsrc, frgsrc, exunifs, exattrs) {
     useShader(ret.program);
     
     ret.dataArray = new Float32Array([
-        -1.0, -3,
+        -1.0, -1.0,
          1.0, -1.0,
-        -1.0,  1,
-         1.0,  10.0
+        -1.0,  1.0,
+         1.0,  1.0
     ]);
     ret.buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, ret.buffer);
     gl.bufferData(gl.ARRAY_BUFFER, ret.dataArray, gl.STATIC_DRAW);
-    
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     unuseShader(ret.program);
     
@@ -580,8 +579,8 @@ function createEffectLib() {
     
     //background
     frgsrc = document.getElementById("bg_fsh").textContent;
-    // effectLib.sceneBg = createEffectProgram(cmnvtxsrc, frgsrc, ['uTimes'], null);
-    // console.log(effectLib.sceneBg)
+    effectLib.sceneBg = createEffectProgram(cmnvtxsrc, frgsrc, ['uTimes'], null);
+    
     // make brightpixels buffer
     frgsrc = document.getElementById("fx_brightbuf_fsh").textContent;
     effectLib.mkBrightBuf = createEffectProgram(cmnvtxsrc, frgsrc, null, null);
@@ -608,7 +607,7 @@ function renderBackground() {
     
     useEffect(effectLib.sceneBg, null);
     gl.uniform2f(effectLib.sceneBg.program.uniforms.uTimes, timeInfo.elapsed, timeInfo.delta);
-    drawEffect(effectLib.sceneBg);
+    // drawEffect(effectLib.sceneBg);
     unuseEffect(effectLib.sceneBg);
     
     gl.enable(gl.DEPTH_TEST);
@@ -661,6 +660,7 @@ function renderPostProcess() {
     //display
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, renderSpec.width, renderSpec.height);
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
     useEffect(effectLib.finalComp, renderSpec.mainRT);
@@ -698,17 +698,19 @@ function renderScene() {
     //draw
     Matrix44.loadLookAt(camera.matrix, camera.position, camera.lookat, camera.up);
     
-    gl.enable(gl.DEPTH_TEST);
     
     //gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, renderSpec.mainRT.frameBuffer);
-    gl.viewport(0, 0, renderSpec.mainRT.width, renderSpec.mainRT.height);
-    gl.clearColor(1, 1, 1, 0);
+   //  gl.bindFramebuffer(gl.FRAMEBUFFER, renderSpec.mainRT.frameBuffer);
+   //  gl.viewport(0, 0, renderSpec.mainRT.width, renderSpec.mainRT.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.DEPTH_TEST);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // gl.enable(gl.BLEND);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
     // renderBackground();
     renderPointFlowers();
-    renderPostProcess();
+    // renderPostProcess();
+   
 }
 
 /////
@@ -723,7 +725,7 @@ function onResize(e) {
 function setViewports() {
     renderSpec.setSize(gl.canvas.width, gl.canvas.height);
     
-    gl.clearColor(255, 255, 255, 0);
+    gl.clearColor(0.2, 0.2, 0.5, 0);
     gl.viewport(0, 0, renderSpec.width, renderSpec.height);
     
     var rtfunc = function (rtname, rtw, rth) {
@@ -776,16 +778,25 @@ function makeCanvasFullScreen(canvas) {
 
 window.addEventListener('load', function(e) {
     var canvas = document.getElementById("sakura");
+    var context_options = {
+        alpha: true, //this enables an alpha channnel in rendering buffer
+        depth: false,
+        stencil: false,
+        antialias: false,
+        premultipliedAlpha: false,
+        preserveDrawingBuffer: false
+    };
     try {
         makeCanvasFullScreen(canvas);
-        gl = canvas.getContext('experimental-webgl', {
-            alpha: true, //this enables an alpha channnel in rendering buffer
-            depth: false,
-            stencil: false,
-            antialias: false,
-            premultipliedAlpha: false,
-            preserveDrawingBuffer: false 
-        });
+        gl = canvas.getContext('experimental-webgl', context_options);
+        gl.clearColor(0, 0, 0, 0);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        // gl.enable(gl.BLEND);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.enable(gl.BLEND);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
     } catch(e) {
         alert("WebGL not supported." + e);
         console.error(e);
@@ -801,7 +812,6 @@ window.addEventListener('load', function(e) {
     timeInfo.start = new Date();
     timeInfo.prev = timeInfo.start;
     animate();
-    gl.clearColor(255, 255, 255,0 )
 });
 
 //set window.requestAnimationFrame
