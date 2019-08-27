@@ -159,6 +159,38 @@
   span:nth-child(8) { animation: textAnimation 0.7s ease 5.1s forwards; }
 }
 
+.first_end {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform: translateY(-100%);
+  animation: slide-bottom 0.5s ease 8.2s forwards;
+
+  &::before {
+    content: ""; display: block;
+    position: absolute;
+    top: calc(50% - 20px); left: calc(50% - 20px);
+    width: 40px; height: 40px;
+    background-color: #ebcb8b;
+    animation: -turn1 1s linear 8.2s infinite;
+  }
+  div {
+    position: absolute;
+    top: calc(50% - 50vmax); left: calc(50% - 50vmax);
+    width: 100vmax; height: 100vmax;
+    transform: scale(0);
+  }
+  div:nth-child(1) { background-color: #ebcb8b; }
+  div:nth-child(2) { background-color: #c56370; }
+  div:nth-child(3) { background-color: #43445b; }
+}
+
+.first_end {
+  div:nth-child(1) { animation: end 0.5s ease 8.65s forwards; }
+  div:nth-child(2) { animation: end 0.5s ease 8.8s forwards; }
+  div:nth-child(3) { animation: end 0.5s ease 8.95s forwards; }
+}
+
 /*** animation ***/
 
 @keyframes first_step_bg {
@@ -213,4 +245,16 @@
 @keyframes width0-100 {
   from { width: 0%; }
   to   { width: 100%; }
+}
+@keyframes end {
+  from { transform: scale(0) rotate(0deg); }
+  to   { transform: scale(1) rotate(-90deg); }
+}
+@keyframes -turn1 {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-1turn); }
+}
+@keyframes slide-bottom {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(0%); }
 }

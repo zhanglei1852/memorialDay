@@ -39,6 +39,11 @@ class CountDown extends React.Component<CountDownState> {
             </div>
           </div>
         </div>
+        <div className={styles.first_end}>
+          <div />
+          <div />
+          <div />
+        </div>
       </div>
     )
   }
